@@ -1,0 +1,855 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<!--  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.css" /> -->
+<link rel="stylesheet" href="fonts/fonts.css" />
+<link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+<link rel="stylesheet" href="css/theme.css" />
+
+
+       <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+
+
+<!-- <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	   <script src="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script> -->
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/jquery.mobile-1.4.5.min.js"></script>
+<script src="js/ListData.js"></script>
+<script src="js/delete.js"></script>
+<script src="js/PopupData.js"></script>
+
+
+
+<script type="text/javascript">
+      var fieldsarray=[
+                        {"fieldname":"Dealname","type":"edittext", "displayfieldname":"Deal Name"},
+                        {"fieldname":"DealDescription","type":"edittext", "displayfieldname":"Deal Description"},
+                        {"fieldname":"Dealstartdate","type":"datepicker", "displayfieldname":"Deal StartDate"},
+                        {"fieldname":"Dealenddate","type":"datepicker", "displayfieldname":"Deal Enddate"},
+                        {"fieldname":"Dealprice","type":"edittext", "displayfieldname":"Deal Price"},
+                        {"fieldname":"selectmenu","type":"dropdown", "displayfieldname":"Select Menu"}, 
+                        {"fieldname":"DealImage","type":"edittext","displayfieldname":"Image"}
+                       ];
+
+		function getBase64Image(img) {
+		    var canvas = document.createElement("canvas");
+		    canvas.width = img.width;
+		    canvas.height = img.height;
+		    var ctx = canvas.getContext("2d");
+		    ctx.drawImage(img, 0, 0);
+		    var dataURL = canvas.toDataURL("image/png");
+		    return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+	  	}
+ 
+  		var base64 = getBase64Image($("#list_img"));
+	</script>
+
+	<script type="text/javascript">
+	$(document).ready(function() {
+	    $('#myTabs').tabs();
+	    $(".ui-loader").hide();
+	    
+	    
+	    $('#scust').click(function() {
+	     	$("#ui-id-3").addClass("current");
+	    	$("#ui-id-1").removeClass("current");
+	    	$("#ui-id-2").removeClass("current");
+	    	$("#ui-id-4").removeClass("current");
+	    	$("#ui-id-5").removeClass("current");
+	    	$("#customers").css("display" ,"block");
+	    	$("#home").css("display","none");
+	    	$("#menu").css("display","none");
+	    	$("#deals").css("display","none");
+	    	$("#users").css("display","none");
+	    });
+	    
+	    
+	    $('#dealsview').click(function() {
+	     	$("#ui-id-4").addClass("current");
+	    	$("#ui-id-1").removeClass("current");
+	    	$("#ui-id-2").removeClass("current");
+	    	$("#ui-id-3").removeClass("current");
+	    	$("#ui-id-5").removeClass("current");
+	    	$("#customers").css("display" ,"none");
+	    	$("#home").css("display","none");
+	    	$("#menu").css("display","none");
+	    	$("#deals").css("display","block");
+	    	$("#users").css("display","none");
+	    });
+	    
+	  
+	    $('#menuview').click(function() {
+	     	$("#ui-id-2").addClass("current");
+	    	$("#ui-id-1").removeClass("current");
+	    	$("#ui-id-3").removeClass("current");
+	    	$("#ui-id-4").removeClass("current");
+	    	$("#ui-id-5").removeClass("current");
+	    	$("#customers").css("display" ,"none");
+	    	$("#home").css("display","none");
+	    	$("#menu").css("display","block");
+	    	$("#deals").css("display","none");
+	    	$("#users").css("display","none");
+	    });
+	    
+	    $('#userview').click(function() {
+	     	$("#ui-id-5").addClass("current");
+	    	$("#ui-id-1").removeClass("current");
+	    	$("#ui-id-2").removeClass("current");
+	    	$("#ui-id-4").removeClass("current");
+	    	$("#ui-id-3").removeClass("current");
+	    	$("#customers").css("display" ,"none");
+	    	$("#home").css("display","none");
+	    	$("#menu").css("display","none");
+	    	$("#deals").css("display","none");
+	    	$("#users").css("display","block");
+	    });
+	    
+	    
+	});
+	
+	</script>
+	 
+<script type="text/javascript">
+function doLogin() {
+
+	window.location.href="login.html";
+
+}
+
+</script>
+	   <script>
+         $(function() {
+            $( "#myTabs" ).tabs();
+            $( "#myTabs" ).tabs (
+            { active: 2 }
+                );
+   
+         });
+      </script>
+</head>
+
+<body onload="setData();">
+	
+
+	<div id="mainForm">
+		<div id="header">
+			<div id="logo" style="float: left;">
+				<img src="img/Logo.png" width="120px;" height="40px;"
+					style="margin-top: 7px; margin-right: 5px; margin-left: 5px; padding: 5px;">
+			</div>
+			<div align="right" style="float: right;margin:10px;">
+				<a href=""  onclick="doLogin();"><i class="fa fa-sign-out fa-2x"></i></a>
+				</div>
+			<div id="myTabs"  style="float: right;">
+				<ul id="tabs" class="tabs">
+					<li><a data-id="1" href="#home">Home</a></li>
+					<li><a data-id="2" href="#menu">Menu</a></li>
+					<li><a data-id="3" href="#customers">Customers</a></li>
+					<li><a data-id="4" href="#deals">Deals</a></li>
+					<li><a data-id="5" href="#users">Truck Drivers</a></li>
+				
+				</ul>
+			
+			</div>
+			
+		</div>
+		<div id="content" style="overflow: scroll">
+		
+	<!--home opening-->	
+ 	<div id="home" class="tab-section" >  	
+       
+         <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Dashboard</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row" >
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa  fa-users fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">9</div>
+                                    <div ><label class="robotomeduimfonthead">Customers</label></div>
+                                </div>
+                            </div>
+                        </div>
+                       
+                            <div class="panel-footer" id="scust" >
+                             <a href="#customers">
+                                <span class="pull-left">View Details</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                </a>
+                                <div class="clearfix"></div>
+                            </div>
+                        
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div id="panel-green" class="panel panel-green">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-tasks fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">2</div>
+                                    <div ><label class="robotomeduimfonthead">Deals and Promotions</label></div>
+                                </div>
+                            </div>
+                        </div>
+                       
+                            <div class="panel-footer" id="dealsview" > <a href="#deals">
+                                <span class="pull-left">View Details</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span> </a>
+                                <div class="clearfix"></div>
+                            </div>
+                       
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div id="panel-yellow" class="panel panel-yellow">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-list-ol fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">26</div>
+                                    <div ><label class="robotomeduimfonthead">Menu List</label></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                            <div class="panel-footer" id="menuview">
+                                  <a href="#menu">
+                                <span class="pull-left">View Details</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>  </a>
+                                <div class="clearfix"></div>
+                      
+                            </div>
+                        
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div id="panel-red" class="panel panel-red">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-car fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">2</div>
+                                    <div ><label class="robotomeduimfonthead">Truck Drivers</label></div>
+                                </div>
+                            </div>
+                        </div>
+                     
+                            <div class="panel-footer" id="userview">
+                                 <a href="#users">
+                                <span class="pull-left">View Details</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                  </a>
+                                <div class="clearfix"></div>
+                            </div>
+                      
+                    </div>
+                </div>
+            </div>
+           <!-- /.row -->
+            <div class="row">
+			<center><img src="img/Richeeze.PNG" style=" width:120; height: 50%; ">
+		 			<p  style="width: 40%; padding-top: 5px; font-family: Roboto Light !important; " >
+		 			Richeeze is CHANGING THE WAY WE THINK ABOUT 
+					THE GRILLED CHEESE SANDWICH. By incorporating the
+					highest quality meats and cheeses, and employing
+					some of the areas best chefs, the Richeeze food
+					trucks are SETTING A NEW STANDARD FOR "GOURMET ON THE GO."
+		 			</p> </center>
+			</div>
+        
+    </div>
+    	<!--home closing-->	
+			<div id="menu" class="tab-section">
+				<form method="post" action="deleteItems">
+					<!-- <div data-role="header" id="list_header" data-theme="b">
+            		<h1 class="ui-title" role="heading">Menu List</h1>
+	            	<div class="ui-btn-right" data-role="controlgroup" data-type="horizontal">            
+		                <a href="#" data-role="button" data-icon="plus" data-iconpos="notext" onclick="addPopup('Menu List', menuarray, 'menu_table','null');"></a>
+						<a href="#" data-role="button" id="menudel" data-icon="delete"  data-iconpos="notext" onclick="showcheckbox();"></a>
+		         		<input type="submit" id="menu_submit" value="submit"  onClick="document.location.reload(true)">  
+	       			</div>
+         		</div> -->
+					<div class="row">
+						<div style="margin-left: 30px;" class="col-md-4">
+   						  <div class="form-group">
+							
+								
+							<select id='cat_id' class="form-control" name='cat_id' onchange="showHint(this,1);">	
+								
+								
+							
+								<option value="1" name="selectmenu">Sandwiches</option>
+								
+							
+								<option value="2" name="selectmenu">Sides & Salads</option>
+								
+							
+								<option value="3" name="selectmenu">Build Your Own</option>
+								
+							
+								<option value="4" name="selectmenu">Deserts</option>
+								
+							
+								<option value="5" name="selectmenu">Pizzas</option>
+								
+
+
+
+
+
+							</select>
+							</div>
+						</div>
+
+
+
+						<div class="ui-btn-right" data-role="controlgroup"
+							data-type="horizontal" style="margin-top: 20px">
+							<a href="#" data-role="button" data-icon="plus"
+								onclick="addPopup('Insert Category', categoriesarray, 'categories_table','null');">
+								Add Categories</a> <a href="#" data-role="button"
+								data-icon="plus"
+								onclick="addPopup('Insert Menu', menuarray, 'menu_table','null');">
+								Add Menu</a> 
+						</div>
+					</div>
+					<div class="row">
+						<div id="list_content">
+							<input type="hidden" name="hiddenTable" id="hiddenDate"
+								value="menu_table"> <input type="hidden"
+								name="hiddencol" id="hiddencol" value="menu_id">
+							<div class="datapanels1">
+							<div class="row" style="margin-left: 25px; margin-right: 25px">
+								
+
+								<div class="col-xs-6 col-md-4" >
+									<div class="panel panel-primary" >
+										<div class="panel-body">
+											<div class="row">
+												<div class="col-md-1" style="float: left;">
+													<div id="hidethis" class="checkbox_mitems hidediv"
+														style="width: 25px; float: left; height: 50px; text-align: left; vertical-align: middle;">
+														<input type="checkbox" id="1"
+															value="1" name="chek_menu" class="list_cbox" />
+													</div>
+												</div>
+												<div class="col-md-4" style="float: left;">
+													<img src="https://s-media-cache-ak0.pinimg.com/236x/0b/ab/38/0bab38ae59ec4298de35b6654ffa9e46.jpg" id="list_img" height="100px"
+														width="100px">
+												</div>
+												<div class="col-md-6" style="float: left">
+
+													<label class="robotomeduimfont" style="font-size: 13px;font-weight: bold;">The Bacon Mac</label> 
+													<label class="robotomeduimfont_desc">Sweet hawaiian bun grilled with our richeeze mac and crispy smoked bacon with pesto sause</label> <label
+														class="robotomeduimfont" style="color: red;">$ 8.95</label>
+
+												</div>
+												<div class="col-md-1" >
+												<span  onclick="EditPopup('Menu Edit',menuarray,'menu_table',1)"  aria-hidden="true"><i class="fa fa-pencil-square-o fa-lg"></i></span>
+												<span  onclick="DeletePopup('Menu',1,1)"  aria-hidden="true"><i class="fa fa-trash-o fa-lg"></i></span>
+												
+												</div>
+											</div>
+										</div>
+
+									</div>
+								</div>
+
+								
+
+								<div class="col-xs-6 col-md-4" >
+									<div class="panel panel-primary" >
+										<div class="panel-body">
+											<div class="row">
+												<div class="col-md-1" style="float: left;">
+													<div id="hidethis" class="checkbox_mitems hidediv"
+														style="width: 25px; float: left; height: 50px; text-align: left; vertical-align: middle;">
+														<input type="checkbox" id="6"
+															value="6" name="chek_menu" class="list_cbox" />
+													</div>
+												</div>
+												<div class="col-md-4" style="float: left;">
+													<img src=" http://s3-media4.fl.yelpcdn.com/bphoto/J2Neux_s6_cJ3WA4kUKjuw/ls.jpg" id="list_img" height="100px"
+														width="100px">
+												</div>
+												<div class="col-md-6" style="float: left">
+
+													<label class="robotomeduimfont" style="font-size: 13px;font-weight: bold;">The Severe</label> 
+													<label class="robotomeduimfont_desc">Black forest ham nestled high in marbled rye with provolone cheeze and a mustard chipotle dressing</label> <label
+														class="robotomeduimfont" style="color: red;">$5.70</label>
+
+												</div>
+												<div class="col-md-1" >
+												<span  onclick="EditPopup('Menu Edit',menuarray,'menu_table',6)"  aria-hidden="true"><i class="fa fa-pencil-square-o fa-lg"></i></span>
+												<span  onclick="DeletePopup('Menu',6,1)"  aria-hidden="true"><i class="fa fa-trash-o fa-lg"></i></span>
+												
+												</div>
+											</div>
+										</div>
+
+									</div>
+								</div>
+
+								
+
+								<div class="col-xs-6 col-md-4" >
+									<div class="panel panel-primary" >
+										<div class="panel-body">
+											<div class="row">
+												<div class="col-md-1" style="float: left;">
+													<div id="hidethis" class="checkbox_mitems hidediv"
+														style="width: 25px; float: left; height: 50px; text-align: left; vertical-align: middle;">
+														<input type="checkbox" id="7"
+															value="7" name="chek_menu" class="list_cbox" />
+													</div>
+												</div>
+												<div class="col-md-4" style="float: left;">
+													<img src="http://s3-media2.fl.yelpcdn.com/bphoto/kHpEOad_WvoZy4d66ZC31g/ls.jpg" id="list_img" height="100px"
+														width="100px">
+												</div>
+												<div class="col-md-6" style="float: left">
+
+													<label class="robotomeduimfont" style="font-size: 13px;font-weight: bold;">The Mama-Mia</label> 
+													<label class="robotomeduimfont_desc">Parmesan crusted sourdough bread with a grilled chicken breast, savory marinara sauce &cheeze</label> <label
+														class="robotomeduimfont" style="color: red;">$ 8.90</label>
+
+												</div>
+												<div class="col-md-1" >
+												<span  onclick="EditPopup('Menu Edit',menuarray,'menu_table',7)"  aria-hidden="true"><i class="fa fa-pencil-square-o fa-lg"></i></span>
+												<span  onclick="DeletePopup('Menu',7,1)"  aria-hidden="true"><i class="fa fa-trash-o fa-lg"></i></span>
+												
+												</div>
+											</div>
+										</div>
+
+									</div>
+								</div>
+
+								
+
+								<div class="col-xs-6 col-md-4" >
+									<div class="panel panel-primary" >
+										<div class="panel-body">
+											<div class="row">
+												<div class="col-md-1" style="float: left;">
+													<div id="hidethis" class="checkbox_mitems hidediv"
+														style="width: 25px; float: left; height: 50px; text-align: left; vertical-align: middle;">
+														<input type="checkbox" id="8"
+															value="8" name="chek_menu" class="list_cbox" />
+													</div>
+												</div>
+												<div class="col-md-4" style="float: left;">
+													<img src=" http://www.dixiechikcooks.com/wp-content/uploads/2015/04/IMGP0990-226x150.jpg" id="list_img" height="100px"
+														width="100px">
+												</div>
+												<div class="col-md-6" style="float: left">
+
+													<label class="robotomeduimfont" style="font-size: 13px;font-weight: bold;">Ally's Special</label> 
+													<label class="robotomeduimfont_desc">Sourdough bread with grilled portobello mushrooms, fresh mozzarella cheeze, and pesto sauce</label> <label
+														class="robotomeduimfont" style="color: red;">$ 8.98</label>
+
+												</div>
+												<div class="col-md-1" >
+												<span  onclick="EditPopup('Menu Edit',menuarray,'menu_table',8)"  aria-hidden="true"><i class="fa fa-pencil-square-o fa-lg"></i></span>
+												<span  onclick="DeletePopup('Menu',8,1)"  aria-hidden="true"><i class="fa fa-trash-o fa-lg"></i></span>
+												
+												</div>
+											</div>
+										</div>
+
+									</div>
+								</div>
+
+								
+
+								<div class="col-xs-6 col-md-4" >
+									<div class="panel panel-primary" >
+										<div class="panel-body">
+											<div class="row">
+												<div class="col-md-1" style="float: left;">
+													<div id="hidethis" class="checkbox_mitems hidediv"
+														style="width: 25px; float: left; height: 50px; text-align: left; vertical-align: middle;">
+														<input type="checkbox" id="9"
+															value="9" name="chek_menu" class="list_cbox" />
+													</div>
+												</div>
+												<div class="col-md-4" style="float: left;">
+													<img src=" http://assets.kraftfoods.com/recipe_images/Jalapeno-Popper-Melt-56605.jpg" id="list_img" height="100px"
+														width="100px">
+												</div>
+												<div class="col-md-6" style="float: left">
+
+													<label class="robotomeduimfont" style="font-size: 13px;font-weight: bold;">Jalapeno Popper Melt</label> 
+													<label class="robotomeduimfont_desc">Sourdough bread grilled with pepper jack cheeze, jalapeno peppers, fresh tomatoes, onoin, and chipotle sauce</label> <label
+														class="robotomeduimfont" style="color: red;">$ 5.55</label>
+
+												</div>
+												<div class="col-md-1" >
+												<span  onclick="EditPopup('Menu Edit',menuarray,'menu_table',9)"  aria-hidden="true"><i class="fa fa-pencil-square-o fa-lg"></i></span>
+												<span  onclick="DeletePopup('Menu',9,1)"  aria-hidden="true"><i class="fa fa-trash-o fa-lg"></i></span>
+												
+												</div>
+											</div>
+										</div>
+
+									</div>
+								</div>
+
+								
+
+								<div class="col-xs-6 col-md-4" >
+									<div class="panel panel-primary" >
+										<div class="panel-body">
+											<div class="row">
+												<div class="col-md-1" style="float: left;">
+													<div id="hidethis" class="checkbox_mitems hidediv"
+														style="width: 25px; float: left; height: 50px; text-align: left; vertical-align: middle;">
+														<input type="checkbox" id="10"
+															value="10" name="chek_menu" class="list_cbox" />
+													</div>
+												</div>
+												<div class="col-md-4" style="float: left;">
+													<img src="http://ww1.prweb.com/prfiles/2014/03/12/11664585/gI_132589_McDonaldsBaconClubhouseBurger.png" id="list_img" height="100px"
+														width="100px">
+												</div>
+												<div class="col-md-6" style="float: left">
+
+													<label class="robotomeduimfont" style="font-size: 13px;font-weight: bold;">The Y.O.L.O</label> 
+													<label class="robotomeduimfont_desc">Three slices of sourdough bread with sliced turkey breast, smoked ham, crispy applewood bacon.</label> <label
+														class="robotomeduimfont" style="color: red;">$ 11.90</label>
+
+												</div>
+												<div class="col-md-1" >
+												<span  onclick="EditPopup('Menu Edit',menuarray,'menu_table',10)"  aria-hidden="true"><i class="fa fa-pencil-square-o fa-lg"></i></span>
+												<span  onclick="DeletePopup('Menu',10,1)"  aria-hidden="true"><i class="fa fa-trash-o fa-lg"></i></span>
+												
+												</div>
+											</div>
+										</div>
+
+									</div>
+								</div>
+
+								
+							</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div id="customers" class="tab-section">
+				<form method="post" action="deleteItems">
+				
+					<div id="list_content">
+						<input type="hidden" name="hiddenTable" id="hiddenDate"
+							value="cust_registration_table">
+							 <input type="hidden" name="hiddencol" id="hiddencol" value="cust_id">
+		
+								<!-- /.table -->		
+						  <!-- /.row -->
+            <div class="row"  style="margin-left: 25px; margin-right: 25px">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Customer List
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                        					
+							<div class="dataTable_wrapper">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <thead>
+                                        <tr>
+                                            <th> <label class="robotomeduimfont bluecolorfont"> Device Type</label></th>
+                                            <th><label class="robotomeduimfont bluecolorfont"> Latitude</label></th>
+                                            <th><label class="robotomeduimfont bluecolorfont"> Longitude</label></th>
+                                            <th><label class="robotomeduimfont bluecolorfont"> IMEI No</label></th>
+                                            <th><label class="robotomeduimfont bluecolorfont"> Mobile No</label></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+							
+						
+							
+                                        <tr >
+                                            <td><label class="robotomeduimfont"> Android</label></td>
+                                            <td><label class="robotomeduimfont"> 18.4343 	</label></td>
+                                            <td><label class="robotomeduimfont"> 74.32432	</label></td>
+                                            <td class="center"><label class="robotomeduimfont"> 	865630025762509</label></td>
+                                            <td class="center"><label class="robotomeduimfont"> 6757656889	</label></td>
+                                        </tr>
+                                      
+                         
+							
+                                        <tr >
+                                            <td><label class="robotomeduimfont"> IOS</label></td>
+                                            <td><label class="robotomeduimfont"> 14.34234	</label></td>
+                                            <td><label class="robotomeduimfont"> 84.2331	</label></td>
+                                            <td class="center"><label class="robotomeduimfont"> 	866112020257966</label></td>
+                                            <td class="center"><label class="robotomeduimfont"> 6878687879	</label></td>
+                                        </tr>
+                                      	
+                                        <tr >
+                                            <td><label class="robotomeduimfont"> Android</label></td>
+                                            <td><label class="robotomeduimfont"> 	17.3700</label></td>
+                                            <td><label class="robotomeduimfont"> 	78.4800</label></td>
+                                            <td class="center"><label class="robotomeduimfont"> 	asef123dsa</label></td>
+                                            <td class="center"><label class="robotomeduimfont"> 	812111866</label></td>
+                                        </tr>
+                                      
+                         
+							
+                                        <tr >
+                                            <td><label class="robotomeduimfont"> IOS</label></td>
+                                            <td><label class="robotomeduimfont"> 	17.3700</label></td>
+                                            <td><label class="robotomeduimfont"> 	78.4800</label></td>
+                                            <td class="center"><label class="robotomeduimfont"> 	abcd123</label></td>
+                                            <td class="center"><label class="robotomeduimfont"> 	9966508899</label></td>
+                                        </tr>
+                                      
+                         
+							
+							           </tbody>
+                                </table>
+                            </div>
+                            		<!-- /.table end -->
+                           
+                              </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row --> 		
+                            			
+					
+					</div>
+				</form>
+			</div>
+			<div id="deals" id="list_header" class="tab-section">
+				<form method="post" action="deleteItems">
+					<div class="row">
+						<div class="ui-btn-right" data-role="controlgroup"
+							data-type="horizontal">
+							<a href="#" data-role="button" data-icon="plus"
+								onclick="addPopup('Deals',fieldsarray, 'deals_table','null');"
+								>Add Deals</a> 
+					
+						</div>
+				
+					</div>
+				
+					<div class="row">
+					
+					<div id="list_content">
+						<input type="hidden" name="hiddenTable" id="hiddenDate"
+							value="deals_table"> <input type="hidden"
+							name="hiddencol" id="hiddencol" value="deal_id">
+							
+						<div class="datapanels2">	
+						<div class="row" style="margin-left: 25px; margin-right: 25px">
+							<!--  <div data-role="listview" id="deals_list"></div> -->
+							
+							
+							<div class="col-xs-6 col-md-4">
+								<div class="panel panel-primary" >
+									<div class="panel-body">
+										<div class="row">
+											<div class="col-md-1" style="float: left;">
+												<div id="hidethis" class="checkbox_mitems hidediv"
+													style="width: 25px; float: left; height: 50px; text-align: left; vertical-align: middle;">
+													<input type="checkbox" id="2"
+														value="2" name="chek_menu" class="list_cbox" />
+												</div>
+											</div>
+											<div class="col-md-4" style="float: left;">
+												<img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTDUTYNKPdXBvLz1xAmyI0c1g3u5Rk1UghcYEeREe-7Y4bixgfY" id="list_img" height="100px"
+													width="100px">
+											</div>
+											<div class="col-md-6" style="float: left">
+
+												<label class="robotomeduimfont" style="font-size: 13px;font-weight: bold;">Daily Deals : Friday</label> <label
+													class="robotomeduimfont_desc">2 Original Chicken Sandwiches & 2 Small Classic French Fries For $4.99</label> <label
+													class="robotomeduimfont_desc">2015-08-11</label> <label
+													class="robotomeduimfont_desc">2015-08-13</label> <label
+													class="robotomeduimfont" style="color: red;">$ 4.99</label>
+
+											</div>
+											<div class="col-md-1">
+												<span onclick="EditPopup('Deal Edit',fieldsarray,'deals_table',2);" aria-hidden="true"><i class="fa fa-pencil-square-o fa-lg"></i></span>
+												<span  onclick="DeletePopup('Deal',2,2)"  aria-hidden="true"><i class="fa fa-trash-o fa-lg"></i></span>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+
+							
+							
+							<div class="col-xs-6 col-md-4">
+								<div class="panel panel-primary" >
+									<div class="panel-body">
+										<div class="row">
+											<div class="col-md-1" style="float: left;">
+												<div id="hidethis" class="checkbox_mitems hidediv"
+													style="width: 25px; float: left; height: 50px; text-align: left; vertical-align: middle;">
+													<input type="checkbox" id="3"
+														value="3" name="chek_menu" class="list_cbox" />
+												</div>
+											</div>
+											<div class="col-md-4" style="float: left;">
+												<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgX_r5ObKtxD-kOV6ZUtVGhAfTw4ZlmVaHiggKlTko1NFVOnuF" id="list_img" height="100px"
+													width="100px">
+											</div>
+											<div class="col-md-6" style="float: left">
+
+												<label class="robotomeduimfont" style="font-size: 13px;font-weight: bold;">* Free PERSONAL PIZZA </label> <label
+													class="robotomeduimfont_desc">Free personal pizza on purchase of any medium pizza. Valid on Sunday</label> <label
+													class="robotomeduimfont_desc">2015-08-11</label> <label
+													class="robotomeduimfont_desc">2015-08-14</label> <label
+													class="robotomeduimfont" style="color: red;">$ 5.90</label>
+
+											</div>
+											<div class="col-md-1">
+												<span onclick="EditPopup('Deal Edit',fieldsarray,'deals_table',3);" aria-hidden="true"><i class="fa fa-pencil-square-o fa-lg"></i></span>
+												<span  onclick="DeletePopup('Deal',3,3)"  aria-hidden="true"><i class="fa fa-trash-o fa-lg"></i></span>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+
+							
+						</div>
+						</div>
+					</div>
+					</div>
+				</form>
+					</div>
+			
+			<div id="users" class="tab-section">
+				<form method="post" action="deleteItems">
+					<div class="row">
+						<div class="ui-btn-right" data-role="controlgroup"
+							data-type="horizontal">
+							<a href="#" data-role="button" data-icon="plus"
+								onclick="addPopup('Users List', userarray, 'adminlogin_table','null');">Add Truck</a>
+							
+						</div>
+					</div>
+					<div class="row">
+					<div id="list_content">
+						<input type="hidden" name="hiddenTable" id="hiddenDate"
+							value="adminlogin_table"> 
+							
+					<input type="hidden"
+							name="hiddencol" id="hiddencol" value="admin_id">
+							
+						<div class="datapanels3">		
+						<div class="row" style="margin-left: 25px; margin-right: 25px">
+							<!--  <div data-role="listview" id="deals_list"></div> -->
+						
+							
+								<div class="col-md-4">
+								<div class="panel panel-primary" style="height: 100px;">
+									<div class="panel-body">
+										<div class="row">
+											<div class="col-md-1" style="float: left;">
+												<div id="hidethis" class="checkbox_mitems hidediv"
+													style="width: 25px; float: left; height: 50px; text-align: left; vertical-align: middle;">
+													<input type="checkbox" id="1"
+														value="1" name="chek_menu" class="list_cbox" />
+												</div>
+											</div>
+											<div class="col-md-4" style="float: left;" >
+											<img src="img/user-icon.png" height="60px" width="60px">
+											</div>
+											<div class="col-md-6" style="float: left">
+
+												<label class="robotomeduimfont">driver_dl1</label> <label
+													class="robotomeduimfont">password</label>
+
+											</div>
+											<div class="col-md-1">
+											
+												<span onclick="EditPopup('Users',userarray,'adminlogin_table',1);" 	aria-hidden="true"><i class="fa fa-pencil-square-o fa-lg"></i></span>
+													<span  onclick="DeletePopup('Admin',1,1)"  aria-hidden="true"><i class="fa fa-trash-o fa-lg"></i></span>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+							
+								<div class="col-md-4">
+								<div class="panel panel-primary" style="height: 100px;">
+									<div class="panel-body">
+										<div class="row">
+											<div class="col-md-1" style="float: left;">
+												<div id="hidethis" class="checkbox_mitems hidediv"
+													style="width: 25px; float: left; height: 50px; text-align: left; vertical-align: middle;">
+													<input type="checkbox" id="2"
+														value="2" name="chek_menu" class="list_cbox" />
+												</div>
+											</div>
+											<div class="col-md-4" style="float: left;" >
+											<img src="img/user-icon.png" height="60px" width="60px">
+											</div>
+											<div class="col-md-6" style="float: left">
+
+												<label class="robotomeduimfont">driver_dl2</label> <label
+													class="robotomeduimfont">password</label>
+
+											</div>
+											<div class="col-md-1">
+											
+												<span onclick="EditPopup('Users',userarray,'adminlogin_table',2);" 	aria-hidden="true"><i class="fa fa-pencil-square-o fa-lg"></i></span>
+													<span  onclick="DeletePopup('Admin',2,2)"  aria-hidden="true"><i class="fa fa-trash-o fa-lg"></i></span>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+							
+						</div>
+						</div>
+					</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div data-role="popup" id="addDataToPopup" data-overlay-theme="a"></div>
+	</div>
+</body>
+</html>

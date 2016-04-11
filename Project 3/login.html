@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>login</title>
+
+
+
+   <link rel="stylesheet" href="css/theme.css" />
+     
+	       <!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="css/bootstrap-theme.min.css">
+	
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+       
+	   <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	   <script src="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script>
+		  <script src="js/login.js"></script>
+<script type="text/javascript">
+function doLogin() {
+
+	/* localStorage.setItem("email",  document.forms["login_frm"]["email"].value);
+	localStorage.setItem("password",  document.forms["login_frm"]["password"].value);
+	if (document.getElementById('remember').checked) {
+		localStorage.setItem("check","true");
+    } else {
+    	localStorage.setItem("check","false");
+    }
+	 $.ajax({
+		url : 'loginservlet',
+		data : {
+			username :  document.forms["login_frm"]["email"].value,
+			password :  document.forms["login_frm"]["password"].value
+		},
+		success : function(responseText) {
+			if(responseText=="success")
+			window.location.href="Welcome.jsp";
+			else
+			document.getElementById('error').style.display = "";	
+		}
+	 
+	});
+ */
+ 
+	window.location.href="Welcome.html";
+}
+
+</script>
+<script type="text/javascript">
+
+
+
+$(document).ready(function(){
+	
+	 if(localStorage.getItem("check")=="true"){
+		 document.getElementById('remember').checked=true;
+	 }
+	if (document.getElementById('remember').checked) {
+		document.getElementById('email').value = localStorage.getItem("email");
+		document.getElementById('password').value = localStorage.getItem("password");
+    } else {
+    	document.getElementById('email').value ="";
+    	document.getElementById('password').value = "";
+    }
+});
+
+
+</script>
+
+</head>
+
+<body>
+
+    <div class="container">
+		
+        <div class="row">
+    
+			<div class="col-md-4 col-md-offset-4">
+			
+                <div class="login-panel panel panel-default">
+                
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Please Sign In</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form role="form" name="login_frm" id="login_frm" action="" method="post">
+                            <fieldset>
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="E-mail" name="email" type="email" id="email" autofocus>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="Password" name="password" type="password" id="password" value="">
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input id="remember" name="remember" type="checkbox" value="Remember Me">Remember Me
+                                    </label>
+                                </div>
+                                <!-- Change this to a button or input when using this as a form -->
+                                <a href="" class="btn btn-lg btn-success btn-block" onclick="doLogin();">Login</a>
+                            </fieldset>
+                        </form>
+                    </div>
+                     <div class="panel-footer"><div class="alert alert-danger" id="error" role="alert" style="display:none;">Please check the login creditionals</div></div>
+                </div>
+            </div>
+        </div>
+        
+      <!-- /.row -->
+            <div class="row">
+			<center><img src="img/Richeeze.PNG" style=" width:120; height: 50%; ">
+		 			<p  style="width: 40%; padding-top: 5px; font-family: Roboto Light !important; " >
+		 			Richeeze is CHANGING THE WAY WE THINK ABOUT 
+					THE GRILLED CHEESE SANDWICH. By incorporating the
+					highest quality meats and cheeses, and employing
+					some of the areas best chefs, the Richeeze food
+					trucks are SETTING A NEW STANDARD FOR "GOURMET ON THE GO."
+		 			</p> </center>
+			</div>
+    </div>
+
+
+</body>
+
+</html>
